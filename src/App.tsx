@@ -3,17 +3,35 @@ import { Item } from './types.ts'
 import './App.css'
 import ItemTable from './ItemTable'
 import Papa from 'papaparse';
+import { fetchDustableItems } from './api.ts';
 
 function App() {
-  const [items, setItems] = useState<Item[]>([])  
+  const [items, setItems] = useState<Item[]>([])  ;
+  const [priceMap, setPriceMap] = useState<Map<string, number>>();
   
   useEffect(() => {
-      fetch('poe-dust.csv')
-        .then((response) => response.text())
-        .then((csvString) => parseCSV(csvString));
-      //.then((response) => response.text())
-      //.then((csvString) => parseCSV(csvString));
+    async function fetchItems() {
+      const items = await fetchDustableItems();
+      const map = new Map(
+        items?.map((item: { name: string; chaosValue: number }) => [item.name, item.chaosValue])
+      );
+      setPriceMap(map);
+    }
+    fetchItems();
   }, [])
+
+  useEffect(() => {
+    fetch('poe-dust.csv')
+      .then((response) => response.text())
+      .then((csvString) => parseCSV(csvString));
+  }, [])
+  
+  useEffect(() => {
+    if (items.length > 0 && priceMap) {
+      setPrices();
+    }
+  }, [priceMap])
+  
   
   function parseCSV(csvString: string) {
     Papa.parse(csvString, {
@@ -28,14 +46,26 @@ function App() {
           dustValIlvl84Q20: parseFloat(row.dustValIlvl84Q20),
         }));
         setItems(data);
-        // fetchPrices(data); // Fetch prices after parsing
       },
     });
   }
 
+  function setPrices() {
+    const updatedItems = items.map((item) => {
+      const chaosPrice = priceMap?.get(item.name);
+
+      return {
+        ...item,
+        chaosPrice: Math.ceil(chaosPrice!) ?? null, // If the price exists, assign it; otherwise, set to null
+      };
+    });
+
+    setItems(updatedItems);
+  }
+
   return (
     <>
-      {items ? <ItemTable items={items} /> : <p>loading</p>}
+      {items.length > 0 ? <ItemTable items={items} /> : <p>loading</p>}
     </>
   )
 }
