@@ -65,7 +65,7 @@ function App() {
 
   return (
     <>
-      {items.length > 0 ? <ItemTable items={items} /> : <p>loading</p>}
+      {items.length > 0 ? <ItemTable items={items} /> : <p>Loading. . .</p>}
     </>
   )
 }
