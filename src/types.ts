@@ -5,5 +5,6 @@ export type Item = {
   dustValIlvl84Q20: number;
   dustPerSlot: number;
   chaosPrice?: number;
+  dustPerChaos?: number;
   tradeLink?: string;
 }

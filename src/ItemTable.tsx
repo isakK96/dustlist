@@ -16,6 +16,7 @@ export default function ItemTable({ items }: tableProps) {
           <th>Dust Value (Ilvl 84 Q20)</th>
           <th>Dust Per Slot</th>
           <th>Chaos Price</th>
+          <th>Dust Per Chaos</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +28,7 @@ export default function ItemTable({ items }: tableProps) {
             <td>{item.dustValIlvl84Q20}</td>
             <td>{item.dustPerSlot}</td>
             <td>{item.chaosPrice ?? 'N/A'}</td>
+            <td>{item.dustPerChaos ?? 'N/A'}</td>
             <td><a href={createTradeLink(item.name)} target='_blank'><button>Trade</button></a></td>
           </tr>
         ))}

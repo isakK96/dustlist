@@ -53,13 +53,19 @@ function App() {
   function setPrices() {
     const updatedItems = items.map((item) => {
       const chaosPrice = priceMap?.get(item.name);
+      let dustPerChaos: number = 0;
+      if (chaosPrice) {
+        dustPerChaos = item.dustValIlvl84 / chaosPrice
+      }
 
       return {
         ...item,
-        chaosPrice: Math.ceil(chaosPrice!) ?? null, // If the price exists, assign it; otherwise, set to null
+        chaosPrice: Math.ceil(chaosPrice!) ?? null,
+        dustPerChaos: Math.ceil(dustPerChaos)
       };
     });
 
+    updatedItems.sort((a, b) => b.dustPerChaos - a.dustPerChaos);
     setItems(updatedItems);
   }
 
