@@ -1,9 +1,12 @@
 export async function fetchDustableItems() {
+  const proxyUrl = "https://corsproxy.io/?";
+  const baseUrl = "https://poe.ninja/api/data/itemoverview?league=Settlers&type=";
+  
   try {
     const [weapons, armours, accessories] = await Promise.all([
-      fetch('/api/data/itemoverview?league=Settlers&type=UniqueWeapon'),
-      fetch('/api/data/itemoverview?league=Settlers&type=UniqueArmour'),
-      fetch('/api/data/itemoverview?league=Settlers&type=UniqueAccessory'),
+      fetch(proxyUrl + baseUrl + 'UniqueWeapon'),
+      fetch(proxyUrl + baseUrl + 'UniqueArmour'),
+      fetch(proxyUrl + baseUrl + 'UniqueAccessory'),
     ]);
 
     const weaponsData = await weapons.json();
