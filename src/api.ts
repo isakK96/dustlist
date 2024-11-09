@@ -15,7 +15,6 @@ export async function fetchDustableItems() {
 
     const combinedItems = [...weaponsData.lines, ...armoursData.lines, ...accessoriesData.lines];
 
-    console.log(combinedItems);
     return combinedItems;
   } catch (err) {
     console.log(err);

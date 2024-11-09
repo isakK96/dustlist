@@ -71,6 +71,7 @@ function App() {
 
   return (
     <>
+      <h1 className='logo'>DustList</h1>
       {items.length > 0 ? <ItemTable items={items} /> : <p>Loading. . .</p>}
     </>
   )
