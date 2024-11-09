@@ -18,7 +18,7 @@ export default function ItemTable({ items }: tableProps) {
         type="number"
         id="filter"
         className="input"
-        onChange={(e) => setMinDustValue(parseInt(e.target.value))}
+        onChange={(e) => {isNaN(parseInt(e.target.value)) ? 0 : setMinDustValue(parseInt(e.target.value))}}
         />
       <table>
         <thead>
