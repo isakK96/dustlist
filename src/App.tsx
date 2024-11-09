@@ -9,6 +9,7 @@ function App() {
   const [items, setItems] = useState<Item[]>([])  ;
   const [priceMap, setPriceMap] = useState<Map<string, number>>();
   
+  // Fetch item prices from poe.ninja
   useEffect(() => {
     async function fetchItems() {
       const items = await fetchDustableItems();
@@ -20,18 +21,19 @@ function App() {
     fetchItems();
   }, [])
 
+  // Parse item data from csv file
   useEffect(() => {
     fetch('poe-dust.csv')
       .then((response) => response.text())
       .then((csvString) => parseCSV(csvString));
   }, [])
   
+  // Match items with their corresponding price
   useEffect(() => {
     if (items.length > 0 && priceMap) {
       setPrices();
     }
   }, [priceMap])
-  
   
   function parseCSV(csvString: string) {
     Papa.parse(csvString, {
